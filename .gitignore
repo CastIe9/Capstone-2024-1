@@ -35,3 +35,7 @@ out/
 
 # Visual Studio Code folder
 .vscode/
+
+# OS generated files #
+######################
+.DS_Store
