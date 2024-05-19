@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Compiled class files
 *.class
 
@@ -10,6 +11,16 @@ build/
 !gradle/wrapper/gradle-wrapper.jar
 
 # Spring Tool Suite
+=======
+HELP.md
+.gradle
+build/
+!gradle/wrapper/gradle-wrapper.jar
+!**/src/main/**/build/
+!**/src/test/**/build/
+
+### STS ###
+>>>>>>> 1606863 (login option)
 .apt_generated
 .classpath
 .factorypath
@@ -18,24 +29,44 @@ build/
 .springBeans
 .sts4-cache
 bin/
+<<<<<<< HEAD
 
 # IntelliJ IDEA project files
 .idea/
+=======
+!**/src/main/**/bin/
+!**/src/test/**/bin/
+
+### IntelliJ IDEA ###
+.idea
+>>>>>>> 1606863 (login option)
 *.iws
 *.iml
 *.ipr
 out/
+<<<<<<< HEAD
 
 # NetBeans files
+=======
+!**/src/main/**/out/
+!**/src/test/**/out/
+
+### NetBeans ###
+>>>>>>> 1606863 (login option)
 /nbproject/private/
 /nbbuild/
 /dist/
 /nbdist/
 /.nb-gradle/
 
+<<<<<<< HEAD
 # Visual Studio Code folder
 .vscode/
 
 # OS generated files #
 ######################
 .DS_Store
+=======
+### VS Code ###
+.vscode/
+>>>>>>> 1606863 (login option)
