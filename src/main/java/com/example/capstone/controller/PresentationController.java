@@ -26,13 +26,14 @@ public class PresentationController {
 
     @PostMapping("/create")
     public ResponseEntity<?> createAndDownloadPresentation(
+            @PathVariable Long porfolioID,
             @RequestBody PresentationRequest presentationRequest, HttpServletRequest request) {
         try {
             logger.info("PowerPoint presentation creating started.");
             Presentation presentation = presentationService.createShortPPT(presentationRequest);
             byte[] pptData = presentationService.createPowerPoint(presentation);
             Long userId = (Long) request.getAttribute("userId");
-            presentationService.savePresentationFile(pptData, userId);
+            presentationService.savePresentationFile(pptData, userId, porfolioID);
 
             logger.info("PowerPoint presentation created and saved successfully.");
             return ResponseEntity.ok("Presentation saved successfully");
@@ -46,8 +47,30 @@ public class PresentationController {
     }
 
     @GetMapping("/user/{userId}")
-    public ResponseEntity<List<PresentationFile>> getPresentationFilesByUserId(@PathVariable Long userId) {
-        List<PresentationFile> presentationFiles = presentationService.getPresentationFilesByUserId(userId);
-        return ResponseEntity.ok(presentationFiles);
+    public ResponseEntity<?> getPresentationFilesByUserId(@PathVariable Long userId) {
+        try {
+            List<PresentationFile> presentationFiles = presentationService.getPresentationFilesByUserId(userId);
+            if (presentationFiles.isEmpty()) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No presentations found for this user ID");
+            }
+            return ResponseEntity.ok(presentationFiles);
+        } catch (Exception e) {
+            logger.error("Error occurred while fetching presentations for user ID {}: {}", userId, e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Server error occurred: " + e.getMessage());
+        }
+    }
+
+    @GetMapping("/portfolio/{portfolioId}")
+    public ResponseEntity<?> getPresentationsByPortfolioId(@PathVariable Long portfolioId) {
+        try {
+            List<PresentationFile> presentations = presentationService.getPresentationsByPortfolioId(portfolioId);
+            if (presentations.isEmpty()) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No presentations found for this portfolio ID");
+            }
+            return ResponseEntity.ok(presentations);
+        } catch (Exception e) {
+            logger.error("Error occurred while fetching presentations for portfolio ID {}: {}", portfolioId, e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Server error occurred: " + e.getMessage());
+        }
     }
 }
