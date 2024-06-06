@@ -24,9 +24,6 @@ public class Slide {
     @Column(nullable = true)
     private String theme_color;
 
-    @Column(nullable = true)
-    private String secondary_color;
-
     @Column(name = "text_count", nullable = false)
     private int text_count;  // TextBox 컴포넌트의 수
 
