@@ -227,15 +227,11 @@ public class PresentationService {
     }
 
     private void createTextBox(XSLFSlide slide, TextBox textBox) {
-        log.info("Creating TextBox with the following details - Position X: {}, Position Y: {}, Width: {}, Height: {}, Text: {}, Font Family: {}, Font Size: {}, Is Bold: {}, Is Italic: {}, Text Color: {}, Text Align: {}",
-                textBox.getPosition_x(), textBox.getPosition_y(), textBox.getWidth(), textBox.getHeight(), textBox.getText(), textBox.getFont_family(), textBox.getFont_size(), textBox.getIs_bold(), textBox.getIs_italic(), textBox.getText_color(), textBox.getText_align());
-
         XSLFTextBox pptTextBox = slide.createTextBox();
         pptTextBox.setAnchor(new Rectangle2D.Double(textBox.getPosition_x(), textBox.getPosition_y(), textBox.getWidth(), textBox.getHeight()));
         XSLFTextParagraph paragraph = pptTextBox.addNewTextParagraph();
 
         String textAlign = textBox.getText_align() != null ? textBox.getText_align().toLowerCase() : "left";
-        log.info("Setting text align for TextBox: {}", textAlign);
         switch (textAlign) {
             case "center":
                 paragraph.setTextAlign(TextParagraph.TextAlign.CENTER);
@@ -265,7 +261,6 @@ public class PresentationService {
             Color color = Color.decode(textBox.getText_color());
             run.setFontColor(color);
         }
-        log.info("Created text box with text: {}", textBox.getText());
     }
 
     private void createImageBox(XMLSlideShow ppt, XSLFSlide slide, ImageBox imageBox) {
@@ -337,14 +332,20 @@ public class PresentationService {
         log.debug("Created shape of type: {}", shape.getShape_type());
     }
 
-    public void savePresentationFile(byte[] fileData, Long userId) {
+    public void savePresentationFile(byte[] fileData, Long userId, Long portfolioId) {
         PresentationFile presentationFile = new PresentationFile();
         presentationFile.setUserId(userId);
+        presentationFile.setPortfolioId(portfolioId);
         presentationFile.setFileData(fileData);
+        log.info("Presentation file saved successfully for userId: {}, portfolioId: {}", userId, portfolioId);
         presentationFileRepository.save(presentationFile);
     }
 
     public List<PresentationFile> getPresentationFilesByUserId(Long userId) {
         return presentationFileRepository.findByUserId(userId);
+    }
+
+    public List<PresentationFile> getPresentationsByPortfolioId(Long portfolioId) {
+        return presentationFileRepository.findByPortfolioId(portfolioId);
     }
 }
