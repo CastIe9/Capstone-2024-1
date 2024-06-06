@@ -114,7 +114,6 @@ public class PresentationService {
     private Slide cloneSlide(Slide oldSlide, List<Map<String, Object>> contentsList) {
         Slide newSlide = new Slide();
         newSlide.setTheme_color(oldSlide.getTheme_color());
-        newSlide.setSecondary_color(oldSlide.getSecondary_color());
         newSlide.setSlide_type(oldSlide.getSlide_type());
 
         log.info("Cloning slide with type: {}", oldSlide.getSlide_type());
